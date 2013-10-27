@@ -47,6 +47,10 @@
 	font-weight: bold
 }
 
+.github-box .github-box-header h3 img {
+	vertical-align: middle;
+}
+
 /* Github Box Header - Stats */
 
 .github-box .github-box-header .github-stats {
