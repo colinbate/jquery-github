@@ -83,7 +83,6 @@ function BitbucketRepo( repo ) {
 	bbrepo.download_url = "/get/" + bbrepo.branch + ".zip";
 	bbrepo.watchers_url = "/follow";
 	bbrepo.forks_frag = "/fork";
-	
 
 	// Parasite off the GithubRepo
 	that = new GithubRepo(bbrepo);

@@ -81,11 +81,16 @@ function BitbucketRepo( repo ) {
 	bbrepo.open_issues = 0;
 	bbrepo.pushed_at = repo.utc_last_updated;
 	bbrepo.url = "https://bitbucket.org/" + repo.resource_uri.replace("/1.0/repositories/", "");
+	if (repo.scm === "hg") {
+		bbrepo.branch = "default";
+	}
+	else {
+		bbrepo.branch = "master";
+	}
 	bbrepo.watchers = repo.followers_count;
-	bbrepo.download_url = "/get/default.zip";
+	bbrepo.download_url = "/get/" + bbrepo.branch + ".zip";
 	bbrepo.watchers_url = "/follow";
 	bbrepo.forks_frag = "/fork";
-	bbrepo.branch = "default";
 
 	// Parasite off the GithubRepo
 	that = new GithubRepo(bbrepo);
@@ -120,7 +125,7 @@ function Github( element, options ) {
 // Initializer
 Github.prototype.init = function () {
 	var self   = this,
-			cached = self.getCache();
+			cached;
 
 	if ( self.repo.substr( 0, 3 ) === "bb:" ) {
 		self.type = "Bitbucket";
@@ -135,6 +140,7 @@ Github.prototype.init = function () {
 		self.repo = self.repo.substr( 3 );
 	}
 
+	cached = self.getCache();
 	if ( cached !== null ) {
 		self.applyTemplate( JSON.parse( cached ) );
 	}
@@ -196,7 +202,7 @@ Github.prototype.setCache = function ( result_data ) {
 
 	// Cache data
 	if ( window.sessionStorage ) {
-		window.sessionStorage.setItem( "gh-repos:" + self.repo, JSON.stringify( result_data ) );
+		window.sessionStorage.setItem( "gh-repos:" + self.type + ":" + self.repo, JSON.stringify( result_data ) );
 	}
 };
 
@@ -205,7 +211,7 @@ Github.prototype.getCache = function() {
 	var self = this;
 
 	if ( window.sessionStorage ) {
-		return window.sessionStorage.getItem( "gh-repos:" + self.repo );
+		return window.sessionStorage.getItem( "gh-repos:" + self.type + ":" + self.repo );
 	}
 	else {
 		return false;
