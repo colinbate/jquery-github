@@ -73,11 +73,17 @@ function BitbucketRepo( repo ) {
 	bbrepo.open_issues = 0;
 	bbrepo.pushed_at = repo.utc_last_updated;
 	bbrepo.url = "https://bitbucket.org/" + repo.resource_uri.replace("/1.0/repositories/", "");
+	if (repo.scm === "hg") {
+		bbrepo.branch = "default";
+	}
+	else {
+		bbrepo.branch = "master";
+	}
 	bbrepo.watchers = repo.followers_count;
-	bbrepo.download_url = "/get/default.zip";
+	bbrepo.download_url = "/get/" + bbrepo.branch + ".zip";
 	bbrepo.watchers_url = "/follow";
 	bbrepo.forks_frag = "/fork";
-	bbrepo.branch = "default";
+	
 
 	// Parasite off the GithubRepo
 	that = new GithubRepo(bbrepo);
