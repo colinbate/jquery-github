@@ -10,6 +10,12 @@ Create an attribute called `data-repo`:
 <div data-repo="jquery-boilerplate/boilerplate"></div>
 ```
 
+If you want to reference a **Bitbucket** repository, just prefix the repository with a `bb:`
+
+```html
+<div data-repo="bb:tortoisehg/thg"></div>
+```
+
 Include jQuery:
 
 ```html
